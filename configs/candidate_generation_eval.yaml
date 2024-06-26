@@ -1,0 +1,39 @@
+---
+# All commands for each experiment with params to be filled specified as `{param}` or `[param]`
+# `{_output}` is a reserved param for the automatically generated output directory
+template:
+  train: >
+    python src/models/run_candidate_generation.py --eval [model_type] [summary_type] [dataset_type] [model_name_or_path] [events] --out_dir {_output} [train_neighbor_size] [eval_neighbor_size] [train_batch_size] [eval_batch_size] [accumulated_batch_size] [avg_accumulated_loss] [optimizer] [lr] [weight_decay] [momentum] [epochs] [warmup_proportion] [early_stop_patience] [max_grad_norm] [seed]
+
+# default values for all params
+default:
+  model_type: secure
+  summary_tye: elaboration-entityCoref_date
+  dataset_type: ecb
+  model_name_or_path: roberta-large
+  events: True
+  train_neighbor_size: 15
+  eval_neighbor_size: 5
+  train_batch_size: 4
+  eval_batch_size: 16
+  accumulated_batch_size: 16
+  avg_accumulated_loss: False
+  optimizer: adam
+  lr: 0.00001
+  weight_decay: 0.0
+  momentum: 0.0
+  epochs: 50
+  warmup_proportion: 0.1
+  early_stop_patience: 10
+  max_grad_norm: 1.0
+  seed: 5
+  remove_singletons: False
+
+# GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
+resource: [ 0 ]
+
+---
+model_type: ["secure"]
+summary_type: ["elaboration-entityCoref_date"]
+dataset_type: ["ecb+"]
+eval_neighbor_size: [10]

@@ -1,0 +1,5 @@
+Number of topics - 50
+Number of documents - 574
+Number of sentences - 9366
+Number of event mentions - 3808
+Number of entity mentions - 4758
