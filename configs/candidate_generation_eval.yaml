@@ -13,7 +13,7 @@ default:
   model_name_or_path: roberta-large
   events: True
   train_neighbor_size: 15
-  eval_neighbor_size: 5
+  eval_neighbor_size: 10
   train_batch_size: 4
   eval_batch_size: 16
   accumulated_batch_size: 16
@@ -36,4 +36,3 @@ resource: [ 0 ]
 model_type: ["secure"]
 summary_type: ["elaboration-entityCoref_date"]
 dataset_type: ["ecb+"]
-eval_neighbor_size: [10]

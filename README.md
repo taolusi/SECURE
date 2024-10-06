@@ -8,7 +8,7 @@ This codebase builds upon the implementation from [Focus on what matters: Applyi
 We are gradually releasing materials related to our paper. The release includes the following:
 
 - [x] Code for data preparation on ECB+
-- [ ] Code for model training and evaluation on ECB+
+- [x] Code for model training and evaluation on ECB+
 - [ ] Code for LLM summary generation on ECB+
 - [ ] Trained checkpoints on ECB+
 - [ ] Original and generated data on ECB+
@@ -25,13 +25,9 @@ however, they are subject to change (in terms of the release date and the conten
 * [Preparation](#preparation)
   * [Environment](#environment)
   * [Data](#data)
-* [Run the model](#run-lm-bff)
-  * [Quick start](#quick-start)
-  * [Experiments with multiple runs](#experiments-with-multiple-runs)
-  * [Without bipartite loss](#without-bipartite-loss)
-  * [Joint/Single prompts](#joint-prompt-or-not)
-  * [Manual/Concat/Soft prompts](#manual-prompt-or-others)
-  * [Few-shot setting](#few-shot-setting)
+* [Run the model](#run)
+  * [Model training](#model-training)
+  * [Model testing](#model-tesing)
 * [Citation](#citation)
 
 ## Overview
@@ -75,3 +71,55 @@ We conduct experiments on three common datasets: ECB+, GVC and FCC. You can use 
 ```bash
 bash ./data/download_dataset.sh
 ```  
+
+## Run the model
+We use the lightweight tool [**MLrunner**](https://github.com/simtony/mlrunner) to run our experiments.
+### Model training
+ You can simply train SECURE with following commands:
+```bash
+run -y configs/candidate_generation_train.yaml -o exps/candidate_generation
+run -y configs/pairwise_classification_train.yaml -o exps/pairwise_classification
+```
+Folders will be created automatically to store models and logs:
+1. ```exps/candidate_generation```: In the first stage, candidate coreferring mentions are
+ retrieved from a neighborhood surrounding a particular mention. These candidate pairs are fed to the second stage of pairwise classifier. 
+2. ```exps/pairwise_classification```: In the second stage, a transformer with cross-attention between
+ pairs is used for binary classification.
+
+You can see hyperparameter settings in ```configs/candidate_generation_train.yaml``` and ```configs/pairwise_classification_train.yaml```.
+
+```model_type```: 'base' for baseline, 'secure' for our model
+```summary_type```: Only used in 'secure' model_type. 'elaboration-entityCoref_date' for the full steps of our summary. 'elaboration' for the first step of our summary. 'paraphrase' for the ablation of our summary.
+```dataset_type```: 'ecb+' for the ECB+ dataset.
+
+### Model testing
+ You can test SECURE with following commands:
+```bash
+run -y configs/candidate_generation_eval.yaml -o exps/candidate_generation
+run -y configs/pairwise_classification_eval.yaml -o exps/pairwise_classification
+```
+ We are uploading the trained models and will share the links later.
+
+## Citation
+Please cite our paper if you use SECURE in your work:
+```bibtex
+@inproceedings{min-etal-2024-synergetic,
+    title = "Synergetic Event Understanding: A Collaborative Approach to Cross-Document Event Coreference Resolution with Large Language Models",
+    author = "Min, Qingkai  and
+      Guo, Qipeng  and
+      Hu, Xiangkun  and
+      Huang, Songfang  and
+      Zhang, Zheng  and
+      Zhang, Yue",
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.acl-long.164",
+    doi = "10.18653/v1/2024.acl-long.164",
+    pages = "2985--3002",
+}
+```

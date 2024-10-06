@@ -12,7 +12,7 @@ default:
   dataset_type: ecb
   model_name_or_path: roberta-large
   train_neighbor_size: 15
-  eval_neighbor_size: 5
+  eval_neighbor_size: 10
   train_batch_size: 4
   eval_batch_size: 16
   accumulated_batch_size: 16
@@ -28,11 +28,9 @@ default:
   seed: 5
 
 # GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
-resource: [ 0 ]
+resource: [ 1 ]
 
 ---
 model_type: ["secure"]
 summary_type: ["elaboration-entityCoref_date"]
 dataset_type: ["ecb+"]
-eval_neighbor_size: [10]
-early_stop_patience: [3]
