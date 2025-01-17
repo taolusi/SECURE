@@ -10,7 +10,7 @@ default:
   model_type: secure
   summary_type: elaboration-entityCoref_date
   dataset_type: ecb+
-  model_name_or_path: /data3/minqingkai/pretrained_models/roberta-large
+  model_name_or_path: roberta-large
   window_size: 5
   train_neighbor_size: 20
   eval_neighbor_size: 10
@@ -31,7 +31,7 @@ default:
 
 
 # GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
-resource: [ 7 ]
+resource: [ 0 ]
 
 ---
 model_type: ["secure"]
