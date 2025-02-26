@@ -1104,6 +1104,7 @@ def train_model(train_data, dev_data, test_data, tokenizer, candidate_generator,
                 dev_docs,
                 epoch_idx,
                 "dev",
+                tokenizer,
                 best_score,
                 patience,
             )
@@ -1114,6 +1115,7 @@ def train_model(train_data, dev_data, test_data, tokenizer, candidate_generator,
                 test_docs,
                 epoch_idx,
                 "test",
+                tokenizer,
             )
         else:
             logger.info(
