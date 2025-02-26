@@ -278,7 +278,7 @@ def structure_pair(mention_1, mention_2, doc_dict, tokenizer, window):
         }
     except Exception:
         if window > 0:
-            return structure_pair(mention_1, mention_2, doc_dict, window - 1)
+            return structure_pair(mention_1, mention_2, doc_dict, tokenizer, window - 1)
         else:
             traceback.print_exc()
             sys.exit()
