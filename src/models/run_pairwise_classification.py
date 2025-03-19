@@ -409,13 +409,17 @@ def structure_dataset(data_set, tokenizer, candidate_generator, is_train=False):
         for key, document in topic.docs.items()
     }
     docs = dataset_to_docs(data_set)
+    if is_train:
+        neighbor_size = config_dict["train_neighbor_size"]
+    else:
+        neighbor_size = config_dict["eval_neighbor_size"]
     pairs = nn_generate_mention_pairs(
         docs,
         candidate_generator,
         tokenizer,
         config_dict["model_type"],
         config_dict["summary_type"],
-        config_dict["eval_neighbor_size"],
+        neighbor_size,
         is_train,
     )
     pairs = list(pairs)
@@ -966,7 +970,7 @@ def eval_coref(
 
 
 def train_model(train_data, dev_data, test_data, tokenizer, candidate_generator, model):
-    train_event_pairs, _, _ = structure_dataset(
+    train_event_pairs, train_pairs, _ = structure_dataset(
         train_data,
         tokenizer,
         candidate_generator,
@@ -986,6 +990,12 @@ def train_model(train_data, dev_data, test_data, tokenizer, candidate_generator,
     scheduler = get_scheduler(optimizer, len(train_event_pairs))
     run["config/optimizer"] = type(optimizer).__name__
     run["config/scheduler"] = type(scheduler).__name__
+
+    all_pairs = {"training": train_pairs, "dev": dev_pairs, "test": test_pairs}
+    for split, pairs in all_pairs.items():
+        new_pairs = list(map(lambda x: [tuple(x)[0].mention_id, tuple(x)[1].mention_id], pairs))
+        with open(os.path.join(args.out_dir, f"{split}_pairs.json"), "w") as f:
+            json.dump(new_pairs, f)
 
     train_sampler = RandomSampler(train_event_pairs)
     train_dataloader = DataLoader(
