@@ -5,6 +5,10 @@ This codebase builds upon the implementation from [Focus on what matters: Applyi
 
 ## Codebase Release Progress
 
+**⚠️ Important Update ⚠️**  
+A bug related to the `neighbor_size` parameter during training has been **fixed**, so if you have already **forked** or **cloned** the repository, please pull the latest changes to ensure optimal performance.  
+
+
 We are gradually releasing materials related to our paper. The release includes the following:
 
 - [x] Code for data preparation on ECB+
