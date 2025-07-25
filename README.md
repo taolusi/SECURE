@@ -11,12 +11,11 @@ A bug related to the `neighbor_size` parameter during training has been **fixed*
 
 We are gradually releasing materials related to our paper. The release includes the following:
 
-- [x] Code for data preparation on ECB+
-- [x] Code for model training and evaluation on ECB+
-- [ ] Code for LLM summary generation on ECB+
-- [ ] Trained checkpoints on ECB+
-- [ ] Original and generated data on ECB+
-- [ ] The same steps above apply to GVC and FCC as well
+- [x] Preprocessed original data (data/{dataset}/processed) and GPT-4 generated data (data/{dataset}/gpt4) for ECB+, GVC and FCC, directly usable for training both our method and the baseline
+- [x] Code for model training and evaluation
+- [x] Data preprocessing code (ECB+ done, GVC/FCC in progress)
+- [ ] Code for LLM summary generation
+- [ ] Trained checkpoints
 
 Beyond our initial release, we are also planning to release the following;
 however, they are subject to change (in terms of the release date and the content):
@@ -69,8 +68,12 @@ python -m spacy download en_core_web_sm
 ```
 
 ### Data
-We conduct experiments on three common datasets: ECB+, GVC and FCC. You can use our provided preprocessed data or construct the datasets from scratch yourself.
-- ECB+: run the following command to construct the datasets:
+We conduct experiments on three datasets: ECB+, GVC, and FCC.
+
+- You can directly use our preprocessed data for all datasets.
+- If you want to preprocess the original data yourself, currently we only provide code for ECB+. For GVC and FCC, please contact us if needed.
+
+To construct the ECB+ dataset from scratch, run:
 
 ```bash
 bash ./data/download_dataset.sh
@@ -92,9 +95,15 @@ Folders will be created automatically to store models and logs:
 
 You can see hyperparameter settings in ```configs/candidate_generation_train.yaml``` and ```configs/pairwise_classification_train.yaml```.
 
-```model_type```: 'base' for baseline, 'secure' for our model
-```summary_type```: Only used in 'secure' model_type. 'elaboration-entityCoref_date' for the full steps of our summary. 'elaboration' for the first step of our summary. 'paraphrase' for the ablation of our summary.
-```dataset_type```: 'ecb+' for the ECB+ dataset.
+
+Key arguments:
+
+- `model_type`: 'base' for baseline, 'secure' for our model
+- `summary_type`: (only used when `model_type` is 'secure')
+    - 'elaboration-entityCoref_date': full steps of our summary
+    - 'elaboration': only first step of our summary
+    - 'paraphrase': ablation of our summary
+- `dataset_type`: 'ecb+' for the ECB+ dataset, 'gvc' for the GVC dataset, 'fcc' for the FCC dataset
 
 ### Model testing
  You can test SECURE with following commands:
