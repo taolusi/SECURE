@@ -172,3 +172,4 @@ test/
 # Experiment tracking
 .neptune/
 exps/
+output/
